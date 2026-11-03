@@ -1,0 +1,15 @@
+# IDE files
+.idea/
+*.iml
+
+# Python / PySpark
+__pycache__/
+*.py[cod]
+venv/
+env/
+.venv/
+
+# Logs and data
+logs/
+*.log
+*.csv
