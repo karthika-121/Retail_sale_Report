@@ -152,36 +152,65 @@ dim_customer.show()
 # PART 1: REVENUE ANALYSIS
 # ==========================================
 print("===========1.    Total_Revenue==========")
-Total_Revenue= sales_df.agg(sum("TotalAmount").alias("Total_Revenue"))
+Total_Revenue= (sales_df
+                .agg(sum("TotalAmount")
+                     .alias("Total_Revenue")
+                     )
+                )
 
 Total_Revenue.show()
 
 #   Monthly_Revenue
-Monthly_Revenue= sales_df.groupby("Year","Month").agg(F.sum("TotalAmount").alias("Monthly_Revenue")).orderBy("Year","Month")
+Monthly_Revenue= (sales_df
+                  .groupby("Year","Month")
+                  .agg(F.sum("TotalAmount")
+                       .alias("Monthly_Revenue"))
+                  .orderBy("Year","Month"))
 print("===========2. Monthly_Revenue==========")
 Monthly_Revenue.show()
 
 #   Yearly_Revenue
-Yearly_Revenue=sales_df.groupby("Year").agg(F.sum("TotalAmount").alias("Yearly_Revenue")).orderBy("Year")
+Yearly_Revenue=(sales_df
+                .groupby("Year")
+                .agg(F.sum("TotalAmount")
+                     .alias("Yearly_Revenue"))
+                .orderBy("Year"))
 print("===========3. Yearly_Revenue==========")
 Yearly_Revenue.show()
-
-#   Revenue by day of week
-dow_Revenue=sales_df.groupBy("Day").agg(F.sum("TotalAmount").alias("Daily_Revenue")).orderBy(F.sum("TotalAmount").desc())
 print("===========4. dow_Revenue==========")
+#   Revenue by day of week
+dow_Revenue=(sales_df
+             .groupBy("Day")
+             .agg(F.sum("TotalAmount")
+                  .alias("Daily_Revenue"))
+             .orderBy(F.sum("TotalAmount")
+                      .desc()))
+
 dow_Revenue.show()
 print("===========5.  Revenue by hour of day==========")
 #
-Hourly_Revenue=sales_df.groupBy("Hour").agg(F.sum("TotalAmount").alias("Hourly_Revenue")).orderBy(F.sum("TotalAmount").desc())
+Hourly_Revenue=(sales_df
+                .groupBy("Hour")
+                .agg(F.sum("TotalAmount")
+                     .alias("Hourly_Revenue"))
+                .orderBy(F.sum("TotalAmount")
+                         .desc()))
 
 Hourly_Revenue.show()
 print("===========6. Revenue by country==========")
-Country_Revenue=sales_df.groupBy("Country").agg(F.sum("TotalAmount").alias("Country_Revenue")).orderBy(F.sum("TotalAmount").desc())
+Country_Revenue=(sales_df
+                 .groupBy("Country")
+                 .agg(F.sum("TotalAmount")
+                      .alias("Country_Revenue"))
+                 .orderBy(F.sum("TotalAmount")
+                          .desc()))
 Country_Revenue.show()
 
 print("===========7. Average_order_value==========")
 #   Average order value(AOV)--> Formula: Total Revenue / Total Unique Orders
-Average_order_value=sales_df.agg((F.sum("TotalAmount")/F.count_distinct("StockCode")).alias("Average_order_value"))
+Average_order_value=(sales_df
+                     .agg((F.sum("TotalAmount")/F.count_distinct("StockCode"))
+                          .alias("Average_order_value")))
 
 Average_order_value.show()
 
