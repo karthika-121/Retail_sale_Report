@@ -288,46 +288,6 @@ total_customer = (
 
 total_customer.show()
 
-print("===============15. New vs repeat customers===========")
-
-from pyspark.sql.functions import countDistinct, when, sum
-customer_purchase_count= sales_df.groupBy("CustomerID","Country").agg(countDistinct("Invoice").alias("customer_count"))
-new_vs_repeat = (
-    customer_purchase_count
-    .withColumn(
-        "customer_type",
-        when(customer_purchase_count.purchase_count == 1, "New")
-        .otherwise("Repeat")
-    )
-)
-
-new_vs_repeat.show()
-
-print("===============16. Top 10 customers by revenue===========")
-
-top_10_customers = (
-    sales_df
-    .groupBy("CustomerID")
-    .agg(
-        sum("TotalAmount").alias("total_revenue")
-    )
-    .orderBy("total_revenue", ascending=False)
-    .limit(10)
-)
-
-top_10_customers.show(truncate=False)
-print("===============17. Customers with Only One Purchase===========")
-
-one_purchase_customers = (
-    sales_df
-    .groupBy("CustomerID")
-    .agg(
-        countDistinct("Invoice").alias("purchase_count")
-    )
-    .filter("purchase_count = 1")
-)
-one_purchase_customers.show()
-
 
 
 
